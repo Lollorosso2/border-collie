@@ -51,22 +51,25 @@
          font-family: var(--font);
          background: var(--bg);
          color: var(--text);
-         line-height: 1.7;
+         line-height: 1.6;
          transition: background var(--transition), color var(--transition);
-         -webkit-font-smoothing: antialiased;
-     }
+          -webkit-font-smoothing: antialiased;
+         padding-top: 64px;
+       }
 
      /* === NAV === */
      nav {
-         position: sticky;
+         position: fixed;
          top: 0;
-         z-index: 100;
-         background: rgba(250,250,247,0.85);
+         left: 0;
+         right: 0;
+         z-index: 9999;
+         background: rgba(250,250,247,0.95);
          backdrop-filter: blur(20px);
-         -webkit-backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
          border-bottom: 1px solid var(--border);
          transition: background var(--transition);
-     }
+      }
 
      [data-theme="dark"] nav {
          background: rgba(18,18,24,0.85);
@@ -137,24 +140,29 @@
      }
 
      .mobile-menu-btn {
-         display: none;
-         background: none;
-         border: none;
-         color: var(--text);
-         font-size: 1.5rem;
-         cursor: pointer;
-         padding: 0.5rem;
+       display: none;
+       background: transparent;
+       border: 1px solid var(--border);
+       color: var(--text);
+       font-size: 1.5rem;
+       cursor: pointer;
+       padding: 0.5rem;
+       width: 44px;
+       height: 44px;
+       border-radius: var(--radius-sm);
+       pointer-events: auto;
      }
 
      /* === HERO === */
      .hero {
-         position: relative;
-         min-height: 90vh;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         text-align: center;
-         overflow: hidden;
+        position: relative;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        overflow: hidden;
+        z-index: 1;
      }
 
      .hero-bg {
@@ -645,16 +653,19 @@
      @media (max-width: 768px) {
          .nav-links { display: none; }
          .nav-links.open {
-             display: flex;
-             flex-direction: column;
-             position: absolute;
-             top: 64px;
-             left: 0;
-             right: 0;
-             background: var(--surface);
-             padding: 1rem;
-             border-bottom: 1px solid var(--border);
-             gap: 0.25rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            gap: 0.25rem;
+            z-index: 9998;
+            box-shadow: var(--shadow-lg);
+            pointer-events: auto;
          }
          .mobile-menu-btn { display: block; }
          .two-col { grid-template-columns: 1fr; }
