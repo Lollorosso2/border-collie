@@ -1,1489 +1,225 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta name="description" content="Alles über Border Collies - die intelligenteste Hunderasse der Welt">
-     <title>Border Collie – Die intelligente Hunderasse</title>
-     <style>
-     /* === CSS RESET & VARIABLES === */
-     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-     :root {
-         --bg: #fafaf7;
-         --bg-alt: #f0f0e8;
-         --surface: #ffffff;
-         --text: #1a1a2e;
-         --text-muted: #5a5a6e;
-         --accent: #2d5016;
-         --accent-light: #4a7c23;
-         --accent-soft: #e8f0e0;
-         --border: rgba(0,0,0,0.08);
-         --shadow: 0 2px 16px rgba(0,0,0,0.06);
-         --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
-         --radius: 16px;
-         --radius-sm: 10px;
-         --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-         --max-width: 1200px;
-         --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-     }
-
-     [data-theme="dark"] {
-         --bg: #121218;
-         --bg-alt: #1a1a24;
-         --surface: #22222c;
-         --text: #e8e8f0;
-         --text-muted: #9a9ab0;
-         --accent: #5a9a30;
-         --accent-light: #7ab848;
-         --accent-soft: #1a2e14;
-         --border: rgba(255,255,255,0.08);
-         --shadow: 0 2px 16px rgba(0,0,0,0.3);
-         --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
-     }
-
-     html {
-         scroll-behavior: smooth;
-         scroll-padding-top: 80px;
-     }
-
-     body {
-         font-family: var(--font);
-         background: var(--bg);
-         color: var(--text);
-         line-height: 1.6;
-         transition: background var(--transition), color var(--transition);
-          -webkit-font-smoothing: antialiased;
-         padding-top: 64px;
-       }
-
-     /* === NAV === */
-     nav {
-         position: fixed;
-         top: 0;
-         left: 0;
-         right: 0;
-         z-index: 9999;
-         background: rgba(250,250,247,0.95);
-         backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-         border-bottom: 1px solid var(--border);
-         transition: background var(--transition);
-      }
-
-     [data-theme="dark"] nav {
-         background: rgba(18,18,24,0.85);
-     }
-
-     .nav-inner {
-         max-width: var(--max-width);
-         margin: 0 auto;
-         padding: 0 2rem;
-         height: 64px;
-         display: flex;
-         align-items: center;
-         justify-content: space-between;
-     }
-
-     .nav-logo {
-         font-weight: 700;
-         font-size: 1.15rem;
-         color: var(--accent);
-         text-decoration: none;
-         display: flex;
-         align-items: center;
-         gap: 0.5rem;
-     }
-
-     .nav-logo svg { width: 28px; height: 28px; }
-
-     .nav-links {
-         display: flex;
-         gap: 0.25rem;
-         list-style: none;
-         flex-wrap: wrap;
-     }
-
-     .nav-links a {
-         color: var(--text-muted);
-         text-decoration: none;
-         padding: 0.4rem 0.75rem;
-         border-radius: var(--radius-sm);
-         font-size: 0.9rem;
-         font-weight: 500;
-         transition: var(--transition);
-     }
-
-     .nav-links a:hover {
-         color: var(--accent);
-         background: var(--accent-soft);
-     }
-
-     .theme-toggle {
-         background: var(--surface);
-         border: 1px solid var(--border);
-         color: var(--text);
-         cursor: pointer;
-         width: 40px;
-         height: 40px;
-         border-radius: 50%;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         font-size: 1.2rem;
-         transition: var(--transition);
-     }
-
-     .theme-toggle:hover {
-         transform: rotate(30deg);
-         border-color: var(--accent);
-     }
-
-     .mobile-menu-btn {
-       display: none;
-       background: transparent;
-       border: 1px solid var(--border);
-       color: var(--text);
-       font-size: 1.5rem;
-       cursor: pointer;
-       padding: 0.5rem;
-       width: 44px;
-       height: 44px;
-       border-radius: var(--radius-sm);
-       pointer-events: auto;
-     }
-
-     /* === HERO === */
-     .hero {
-       position: relative;
-       min-height: 90vh;
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       text-align: center;
-       overflow: hidden;
-       z-index: 1;
-       padding-top: 64px;
-     }
-
-     .hero-bg {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-     }
-
-     .hero-bg img {
-         width: 100%;
-         height: 100%;
-         object-fit: cover;
-     }
-
-     .hero-bg::after {
-         content: '';
-         position: absolute;
-         inset: 0;
-         background: linear-gradient(180deg, rgba(26,26,46,0.6) 0%, rgba(45,80,22,0.4) 50%, rgba(26,26,46,0.8) 100%);
-     }
-
-     .hero-content {
-         position: relative;
-         z-index: 1;
-         max-width: 800px;
-         padding: 2rem;
-         color: #fff;
-     }
-
-     .hero-eyebrow {
-         font-size: 0.85rem;
-         text-transform: uppercase;
-         letter-spacing: 0.2em;
-         margin-bottom: 1rem;
-         opacity: 0.85;
-     }
-
-     .hero h1 {
-         font-size: clamp(2.5rem, 6vw, 4.5rem);
-         font-weight: 800;
-         line-height: 1.1;
-         margin-bottom: 1.25rem;
-         text-shadow: 0 2px 20px rgba(0,0,0,0.3);
-     }
-
-     .hero p {
-         font-size: clamp(1.1rem, 2vw, 1.35rem);
-         line-height: 1.6;
-         opacity: 0.95;
-         max-width: 640px;
-         margin: 0 auto 2rem;
-     }
-
-     .hero-cta {
-         display: inline-flex;
-         align-items: center;
-         gap: 0.5rem;
-         background: var(--accent-light);
-         color: #fff;
-         padding: 0.85rem 2rem;
-         border-radius: 50px;
-         text-decoration: none;
-         font-weight: 600;
-         font-size: 1.05rem;
-         transition: var(--transition);
-     }
-
-     .hero-cta:hover {
-         background: var(--accent);
-         transform: translateY(-2px);
-     }
-
-     .scroll-indicator {
-         position: absolute;
-         bottom: 2rem;
-         left: 50%;
-         transform: translateX(-50%);
-         z-index: 1;
-         color: #fff;
-         opacity: 0.6;
-         animation: bounce 2s infinite;
-     }
-
-     @keyframes bounce {
-         0%, 100% { transform: translateX(-50%) translateY(0); }
-         50% { transform: translateX(-50%) translateY(8px); }
-     }
-
-     /* === SECTIONS === */
-     .section {
-         max-width: var(--max-width);
-         margin: 0 auto;
-         padding: 5rem 2rem;
-     }
-
-     .section-alt {
-         background: var(--bg-alt);
-         transition: background var(--transition);
-     }
-
-     .section-alt .section {
-         max-width: var(--max-width);
-         margin: 0 auto;
-     }
-
-     .section-header {
-         text-align: center;
-         margin-bottom: 3rem;
-     }
-
-     .section-header h2 {
-         font-size: clamp(1.8rem, 3vw, 2.5rem);
-         font-weight: 700;
-         color: var(--text);
-         margin-bottom: 0.75rem;
-     }
-
-     .section-header p {
-         color: var(--text-muted);
-         font-size: 1.1rem;
-         max-width: 600px;
-         margin: 0 auto;
-     }
-
-     .divider-dot {
-         width: 8px;
-         height: 8px;
-         border-radius: 50%;
-         background: var(--accent);
-         margin: 0 auto 1rem;
-     }
-
-     /* === CARDS === */
-     .card-grid {
-         display: grid;
-         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-         gap: 1.5rem;
-     }
-
-     .card {
-         background: var(--surface);
-         border: 1px solid var(--border);
-         border-radius: var(--radius);
-         padding: 2rem;
-         transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-     }
-
-     .card:hover {
-         transform: translateY(-4px);
-         box-shadow: var(--shadow-lg);
-         border-color: var(--accent);
-     }
-
-     .card-icon {
-         width: 48px;
-         height: 48px;
-         background: var(--accent-soft);
-         border-radius: var(--radius-sm);
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         margin-bottom: 1rem;
-         color: var(--accent);
-     }
-
-     .card-icon svg { width: 24px; height: 24px; }
-
-     .card h3 {
-         font-size: 1.25rem;
-         font-weight: 600;
-         margin-bottom: 0.75rem;
-         color: var(--text);
-     }
-
-     .card p {
-         color: var(--text-muted);
-         line-height: 1.65;
-     }
-
-     /* === FEATURE LIST === */
-     .feature-list {
-         list-style: none;
-         display: grid;
-         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-         gap: 1rem;
-     }
-
-     .feature-list li {
-         display: flex;
-         gap: 0.75rem;
-         align-items: flex-start;
-         padding: 1rem;
-         background: var(--surface);
-         border-radius: var(--radius-sm);
-         border: 1px solid var(--border);
-         transition: border-color var(--transition);
-     }
-
-     .feature-list li:hover {
-         border-color: var(--accent);
-     }
-
-     .feature-check {
-         flex-shrink: 0;
-         width: 24px;
-         height: 24px;
-         background: var(--accent);
-         border-radius: 50%;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         color: #fff;
-         font-size: 0.75rem;
-     }
-
-     /* === INFO BLOCK === */
-     .info-block {
-         background: var(--surface);
-         border: 1px solid var(--border);
-         border-radius: var(--radius);
-         padding: 2.5rem;
-         margin-bottom: 2rem;
-     }
-
-     .info-block h3 {
-         font-size: 1.4rem;
-         margin-bottom: 1rem;
-         color: var(--accent);
-     }
-
-     .info-block p {
-         color: var(--text-muted);
-         line-height: 1.7;
-         margin-bottom: 1rem;
-     }
-
-     .info-block p:last-child { margin-bottom: 0; }
-
-     /* === TWO-COLUMN LAYOUT === */
-     .two-col {
-         display: grid;
-         grid-template-columns: 1fr 1fr;
-         gap: 2rem;
-         align-items: start;
-     }
-
-     /* === GALLERY === */
-     .gallery-grid {
-         display: grid;
-         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-         gap: 1.5rem;
-     }
-
-     .gallery-item {
-         border-radius: var(--radius);
-         overflow: hidden;
-         position: relative;
-         aspect-ratio: 16/10;
-         transition: transform var(--transition);
-     }
-
-     .gallery-item:hover {
-         transform: scale(1.02);
-     }
-
-     .gallery-item img {
-         width: 100%;
-         height: 100%;
-         object-fit: cover;
-     }
-
-     .gallery-caption {
-         position: absolute;
-         bottom: 0;
-         left: 0;
-         right: 0;
-         padding: 1.5rem 1rem 1rem;
-         background: linear-gradient(transparent, rgba(0,0,0,0.7));
-         color: #fff;
-         font-weight: 600;
-         font-size: 0.95rem;
-     }
-
-     /* === STATS BAR === */
-     .stats-bar {
-         display: grid;
-         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-         gap: 1rem;
-         padding: 3rem 2rem;
-         background: var(--accent);
-         color: #fff;
-         max-width: var(--max-width);
-         margin: 0 auto;
-         border-radius: var(--radius);
-     }
-
-     .stat {
-         text-align: center;
-     }
-
-     .stat-value {
-        font-size: 2.5rem;
-        font-weight: 800;
-        line-height: 1;
-     }
-
-     /* === PARALLAX HERO === */
-     .hero-bg {
-        will-change: transform;
-        transition: transform 0.1s linear;
-     }
-
-     /* === ANIMATED ICONS === */
-     @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.15); }
-     }
-     .card:hover .card-icon {
-        animation: pulse 0.6s ease;
-     }
-
-     @keyframes float {
-        0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-     }
-     .hero-cta { animation: float 3s ease-in-out infinite; }
-
-     /* === TEXT REVEAL === */
-     .reveal-text {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-     }
-     .reveal-text.visible {
-        opacity: 1;
-        transform: translateY(0);
-     }
-
-     /* === LIGHTBOX STYLES === */
-     .lightbox-overlay {
-         display: none;
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         background: rgba(0, 0, 0, 0.9);
-         z-index: 1000;
-         justify-content: center;
-         align-items: center;
-     }
-
-     .lightbox-overlay.active {
-         display: flex;
-     }
-
-     .lightbox-img {
-         max-width: 90vw;
-         max-height: 90vh;
-         object-fit: contain;
-         border-radius: 8px;
-     }
-
-     .lightbox-close {
-         position: absolute;
-         top: 20px;
-         right: 30px;
-         font-size: 40px;
-         color: white;
-         cursor: pointer;
-         background: none;
-         border: none;
-     }
-
-     .lightbox-nav {
-         position: absolute;
-         top: 50%;
-         transform: translateY(-50%);
-         background: rgba(255, 255, 255, 0.3);
-         color: white;
-         border: none;
-         width: 50px;
-         height: 50px;
-         border-radius: 50%;
-         font-size: 24px;
-         cursor: pointer;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-     }
-
-     .lightbox-prev {
-         left: 20px;
-     }
-
-     .lightbox-next {
-         right: 20px;
-     }
-
-     .lightbox-nav:hover {
-         background: rgba(255, 255, 255, 0.5);
-     }
-
-     /* === PRINT OPTIMIZED CSS === */
-     @media print {
-         nav, .particle-canvas, .lightbox-overlay { display: none !important; }
-         body { background: white !important; color: black !important; }
-         .section, .section-alt { page-break-before: always; }
-         .hero-section { page-break-before: avoid; }
-         * { transition: none !important; animation: none !important; }
-         .card { box-shadow: none !important; border: 1px solid #ccc; }
-     }
-
-     /* === PARTICLE CANVAS === */
-     #particles-canvas {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-     }
-
-     .stat-label {
-         font-size: 0.85rem;
-         opacity: 0.85;
-         margin-top: 0.25rem;
-     }
-
-     /* === CTA / CONCLUSION === */
-     .cta-section {
-         text-align: center;
-         padding: 5rem 2rem;
-         background: linear-gradient(135deg, var(--accent) 0%, #1a3a0a 100%);
-         color: #fff;
-     }
-
-     .cta-section h2 {
-         font-size: clamp(1.8rem, 3vw, 2.5rem);
-         margin-bottom: 1rem;
-     }
-
-     .cta-section p {
-         font-size: 1.15rem;
-         max-width: 600px;
-         margin: 0 auto 2rem;
-         opacity: 0.9;
-     }
-
-     /* === FOOTER === */
-     footer {
-         background: var(--bg-alt);
-         border-top: 1px solid var(--border);
-         text-align: center;
-         padding: 2rem;
-         color: var(--text-muted);
-         font-size: 0.9rem;
-     }
-
-     /* === ANIMATIONS === */
-     .fade-up {
-         opacity: 0;
-         transform: translateY(30px);
-         transition: opacity 0.6s ease, transform 0.6s ease;
-     }
-
-     .fade-up.visible {
-         opacity: 1;
-         transform: translateY(0);
-     }
-
-     .fade-up:nth-child(2) { transition-delay: 0.1s; }
-     .fade-up:nth-child(3) { transition-delay: 0.2s; }
-     .fade-up:nth-child(4) { transition-delay: 0.3s; }
-     .fade-up:nth-child(5) { transition-delay: 0.4s; }
-     .fade-up:nth-child(6) { transition-delay: 0.5s; }
-
-     /* === PROGRESS BAR === */
-     .progress-bar {
-         position: fixed;
-         top: 64px;
-         left: 0;
-         height: 3px;
-         background: var(--accent);
-         z-index: 99;
-         transition: width 0.1s linear;
-     }
-
-     /* === RESPONSIVE === */
-     @media (max-width: 768px) {
-         .nav-links { display: none; }
-         .nav-links.open {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 64px;
-            left: 0;
-            right: 0;
-            background: var(--surface);
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            gap: 0.25rem;
-            z-index: 9998;
-            box-shadow: var(--shadow-lg);
-            pointer-events: auto;
-         }
-         .mobile-menu-btn { display: block; }
-         .two-col { grid-template-columns: 1fr; }
-         .hero { min-height: 80vh; }
-         .card-grid { grid-template-columns: 1fr; }
-         .stats-bar { grid-template-columns: repeat(2, 1fr); }
-         .section { padding: 3rem 1.5rem; }
-     }
-
-     @media (max-width: 480px) {
-         .nav-inner { padding: 0 1rem; }
-         .hero h1 { font-size: 2rem; }
-         .stats-bar { grid-template-columns: 1fr 1fr; gap: 0.75rem; padding: 2rem 1rem; }
-         .stat-value { font-size: 2rem; }
-     }
-     </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayerisches Rotes Kreuz – Spenden &amp; Unterstotzen</title>
+<style>
+:root{--brk:#E3000F;--brkd:#B8000C;--brk-l:#FF3340;--bg:#fff;--fg:#1a1a1a;--m:#555;--surf:#f7f7f7;--bord:#e6e6e6;--txt:#222;--tr:.3s}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;transition:background var(--tr),color var(--tr)}
+.container{width:min(92%,1280px);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.section{margin:0 auto 28px;padding:60px 0}
+.section h2{font-size:clamp(1.4rem,3.5vw,2rem);margin-bottom:1rem;color:var(--txt)}
+h1,.btn,.link{font-weight:600}
+a.link{color:var(--brk);text-decoration:none;border-bottom:2px solid var(--brk)}
+/* Nav */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--bord);box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.navbar>.container{display:flex;align-items:center;justify-content:space-between;height:60px}
+.navbar .logo{font-weight:700;font-size:1.1rem;color:var(--brk);text-decoration:none;letter-spacing:-0.5px}
+.nav-links{display:flex;list-style:none;gap:24px}
+.nav-links a{text-decoration:none;color:var(--txt);font-weight:500;font-size:.95rem;transition:color .2s}
+.nav-links a:hover{color:var(--brk)}
+.theme-btn{background:none;border:1px solid var(--bord);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.85rem;color:var(--txt);transition:all .2s}
+.theme-btn:hover{border-color:var(--brk)}
+.mobile-menu-btn{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--txt);padding:8px}
+@media(max-width:768px){
+.nav-links{display:none}
+.nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:rgba(255,255,255,.98);backdrop-filter:blur(8px);z-index:9998;padding:16px;gap:0;border-bottom:1px solid var(--bord);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-links.open li{border-bottom:1px solid var(--bord)}
+.nav-links.open li:last-child{border:none}
+.nav-links.open a{display:block;padding:14px 16px;font-size:1rem}
+.mobile-menu-btn{display:block}
+}
+/* Hero */
+body{padding-top:60px}
+.hero{position:relative;min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,var(--brk) 0%,var(--brkd) 100%);color:#fff;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg%20width%3D%2240%22%20height%3D%2240%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M20%200L40%2020%2020%2040%200%2020Z%22%20fill%3D%22rgba%28255%2C255%253B255%2C0.04%29%22%2F%3E%3C%2Fsvg%3E");pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:700px;padding:20px}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:.6rem;letter-spacing:-.5px}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.35rem);margin-bottom:2rem;opacity:.95}
+.cta-btn{display:inline-block;background:#fff;color:var(--brk);padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:600;font-size:1.05rem;transition:transform .2s,box-shadow .2s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.cross-icon{font-size:4rem;margin-bottom:1rem;opacity:.9}
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:1.5rem}
+.card{background:var(--surf);border:1px solid var(--bord);border-radius:12px;padding:28px;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.card h3{color:var(--brk);margin-bottom:.5rem;font-size:1.15rem}
+.card-icon{font-size:2.5rem;margin-bottom:.8rem}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;margin:2rem 0;text-align:center}
+.stat{padding:20px}
+.stat-num{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--brk)}
+.stat-label{font-size:.9rem;color:var(--m);margin-top:.3rem}
+/* Donate */
+.donate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:1.5rem}
+.donate-card{background:var(--surf);border:2px solid var(--bord);border-radius:12px;padding:24px;text-align:center;transition:border-color .2s}
+.donate-card:hover,.donate-card.featured{border-color:var(--brk)}
+.donate-card h3{color:var(--brk);margin-bottom:.5rem}
+.formula{font-family:monospace;background:var(--surf);padding:10px 14px;border-radius:6px;margin:.5rem 0;font-size:.82rem}
+.cta-secondary{display:inline-block;background:var(--brk);color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:background .2s}
+.cta-secondary:hover{background:var(--brkd)}
+/* Timeline */
+.timeline{max-width:700px;margin:2rem auto}
+.t-item{padding:16px 0;border-left:3px solid var(--brk);padding-left:24px;position:relative}
+.t-item::before{content:"";position:absolute;left:-8px;top:20px;width:12px;height:12px;background:var(--brk);border-radius:50%}
+.t-item h4{color:var(--brk);margin-bottom:.3rem}
+/* Volunteer */
+.vol-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:1.5rem}
+.vol-card{background:var(--surf);border:1px solid var(--bord);border-radius:12px;padding:24px;text-align:center}
+.vol-icon{font-size:3rem;margin-bottom:.8rem}
+/* Gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:1.5rem}
+.gallery img{width:100%;height:200px;object-fit:cover;border-radius:8px;background:var(--surf)}
+/* Footer */
+footer{background:#1a1a1a;color:#aaa;padding:40px 0;margin-top:2rem}
+footer a{color:#fff;text-decoration:none}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
+footer h4{color:#fff;margin-bottom:.5rem}
+footer ul{list-style:none}
+footer .copyright{width:100%;text-align:center;margin-top:1rem;border-top:1px solid #333;padding-top:1rem;font-size:.85rem}
+/* Dark mode */
+[data-theme=dark]{--bg:#1a1a1a;--fg:#eee;--m:#999;--surf:#252525;--bord:#333;--txt:#eee}
+[data-theme=dark] .navbar{background:rgba(26,26,26,.97)}
+[data-theme=dark] .nav-links.open{background:rgba(26,26,26,.98)}
+@media(max-width:480px){.hero{min-height:65vh}.hero h1{font-size:1.8rem}}
+</style>
 </head>
 <body>
-     <!-- Progress Bar -->
-     <div class="progress-bar" id="progressBar"></div>
-
-     <!-- Navigation -->
-     <nav>
-         <div class="nav-inner">
-             <a href="#" class="nav-logo">
-                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                     <circle cx="12" cy="12" r="3"/>
-                     <path d="M12 2 L12 6 M12 18 L12 22 M2 12 L6 12 M18 12 L22 12"/>
-                     <path d="M4.93 4.93 L7.76 7.76 M16.24 16.24 L19.07 19.07 M19.07 4.93 L16.24 7.76 M4.93 19.07 L7.76 16.24"/>
-                 </svg>
-                 Border Collie
-             </a>
-             <ul class="nav-links" id="navLinks">
-                 <li><a href="#ueber">Über die Rasse</a></li>
-                 <li><a href="#charakter">Charakter</a></li>
-                 <li><a href="#pflege">Pflege</a></li>
-                 <li><a href="#training">Training</a></li>
-                 <li><a href="#gesundheit">Gesundheit</a></li>
-                 <li><a href="#galerie">Galerie</a></li>
-             </ul>
-             <div style="display:flex;gap:0.5rem;align-items:center">
-                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menü öffnen">☰</button>
-                 <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln">🌙</button>
-             </div>
-         </div>
-     </nav>
-
-     <!-- Hero -->
-     <section class="hero">
-         <div class="hero-bg">
-             <video autoplay muted loop playsinline class="hero-video" style="width:100%;height:100%;object-fit:cover;">
-                 <source src="assets/videos/border-collie-hero.mp4" type="video/mp4">
-             </video>
-         </div>
-         <div class="hero-content">
-             <p class="hero-eyebrow">Die intelligenteste Hunderasse</p>
-             <h1>Border Collie</h1>
-             <p>Entdecken Sie die faszinierende Welt des Border Collies — eines der intelligentesten, energiegeladensten und treuesten Begleiter, die Sie sich vorstellen können.</p>
-             <a href="#ueber" class="hero-cta">Mehr erfahren ↓</a>
-         </div>
-         <div class="scroll-indicator">
-             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                 <path d="M12 5v14M5 12l7 7 7-7"/>
-             </svg>
-         </div>
-     </section>
-
-     <!-- Stats -->
-     <div class="section">
-         <div class="stats-bar fade-up">
-             <div class="stat">
-                 <div class="stat-value">100+</div>
-                 <div class="stat-label">Wörter verständlich</div>
-             </div>
-             <div class="stat">
-                 <div class="stat-value">12-25</div>
-                 <div class="stat-label">kg Körpergewicht</div>
-             </div>
-             <div class="stat">
-                 <video autoplay muted loop playsinline style="width:80px;height:40px;object-fit:cover;border-radius:8px;">
-                     <source src="assets/videos/lifespan-counter.mp4" type="video/mp4">
-                 </video>
-                 <div class="stat-label">Jahre Lebenserwartung</div>
-             </div>
-             <div class="stat">
-                 <div class="stat-value">#1</div>
-                 <div class="stat-label">Intelligenz-Ranking</div>
-             </div>
-         </div>
-     </div>
-
-     <!-- Über die Rasse -->
-     <div class="section-alt">
-         <div class="section">
-             <div class="section-header fade-up">
-                 <div class="divider-dot"></div>
-                 <h2>Über die Rasse</h2>
-                 <p>Eine Hunderasse, die seit über 200 Jahren in den schottisch-englischen Grenzregionen als Hirtehund arbeitet.</p>
-             </div>
-
-             <div class="two-col">
-                 <div class="info-block fade-up">
-                     <h3>Herkunft & Geschichte</h3>
-                     <p>Der Border Collie entstand im 19. Jahrhundert in den Grenzregionen zwischen England und Schottland. Die Züchtung konzentrierte sich rein auf Arbeitsqualität — Aussehen war völlig nebensächlich. Der legendäre Hund "Old Hemp" um 1900 legte das genetische Fundament fast aller modernen Border Collies.</p>
-                     <p>Heute ist der Border Collie weltweit als Sport-, Arbeits- und Familienhund beliebt — immer noch treu seinen Wurzeln als einer der fähigsten Hirtehunde der Welt.</p>
-                 </div>
-                 <div class="info-block fade-up">
-                     <h3>Typische Merkmale</h3>
-                     <p>Border Collies sind mittelgroße, athletische Hunde mit einer Körperlänge von 48–56 cm und einem Gewicht von 12–25 kg. Sie haben einen charakteristischen, tiefen "Blick" — die unverwechselbare starrende Haltung, mit der sie Schafe hüten.</p>
-                     <p>Das Fell gibt es in kurzen und langen Varianten, in zahlreichen Farben: klassisch schwarz-weiß, aber auch rot-weiß, tricolor, blau-merle und viele mehr.</p>
-                 </div>
-             </div>
-
-             <div class="card-grid" style="margin-top:2rem">
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 7 7v2a7 7 0 0 1-14 0v-2a7 7 0 0 1 7-7z"/><path d="M12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M12 13v9"/><path d="M8 22h8"/></svg>
-                     </div>
-                     <h3>Intelligenz</h3>
-                     <p>Als die intelligenteste Hunderasse der Welt können Border Collies bis zu 1.000 Wörter erkennen und verstehen. Sie lernen innerhalb weniger Wiederholungen und imitieren oft unbemerkt neue Verhaltensweisen.</p>
-                 </div>
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
-                     </div>
-                     <h3>Arbeitstrieb</h3>
-                     <p>Der ausgeprägte Herdentrieb ist das Markenzeichen der Rasse. Border Collies lieben es, Aufgaben zu haben — ob Schäferhund-Arbeit, Sport oder tägliche Herausforderungen zu Hause.</p>
-                 </div>
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                     </div>
-                     <h3>Bindung zum Menschen</h3>
-                     <p>Border Collies sind eng an ihren Menschen gebunden. Sie suchen ständigen Kontakt und wollen nicht lange allein gelassen werden. Diese Loyalität macht sie zu wunderbaren Begleitern.</p>
-                 </div>
-             </div>
-         </div>
-     </div>
-
-     <!-- Charakter -->
-     <div class="section">
-         <div class="section-header fade-up">
-             <div class="divider-dot"></div>
-             <h2>Charakter & Eigenschaften</h2>
-             <p>Was Border Collies von anderen Hunderassen fundamental unterscheidet.</p>
-         </div>
-
-         <div class="two-col">
-             <div class="info-block fade-up">
-                 <h3>Die Persönlichkeit</h3>
-                 <p>Border Collies sind neugierig, sensibel und extrem lernbegierig. Sie beobachten ihre Umgebung intensiv und versuchen ständig, Zusammenhänge zu verstehen. Ein Border Collie, der langeweilt, erfindet sich selbst Beschäftigung — oft zum Leidwesen seiner Möbel.</p>
-                 <p>Sie sind sanft und freundlich, zeigen aber eine bemerkenswerte Eigeninitiative. Viele Halter berichten, dass ihr Border Collie sie bei täglichen Routinen „hilft" — ohne dass sie darum gebeten wurden.</p>
-             </div>
-             <div class="info-block fade-up">
-                 <h3>Energie & Aktivität</h3>
-                 <p>Das Wort „aktiv" ist eine Untertreibung. Border Collies brauchen täglich mehrere Stunden intensive Bewegung — sowohl körperlich als auch geistig. Ein Spaziergang genügt nicht. Ideal sind Aktivitäten wie Agility, Flyball, Hütesport, Discdog oder lange Joggingeinheiten.</p>
-                 <p>Ohne ausreichende Auslastung neigen sie zu zerstörerischem Verhalten, übermäßigem Bellen oder neurotischen Gewohnheiten.</p>
-             </div>
-         </div>
-
-         <ul class="feature-list" style="margin-top:2rem">
-             <li class="fade-up"><span class="feature-check">✓</span><span><strong>Extrem lernfähig</strong> — Neue Kommandos in Minuten statt Wochen</span></li>
-             <li class="fade-up"><span class="feature-check">✓</span><span><strong>Sehr sensibel</strong> — Reagiert auf Stimmung und Körpersprache</span></li>
-             <li class="fade-up"><span class="feature-check">✓</span><span><strong>Hohes Arbeitsbedürfnis</strong> — Braucht Sinn und Aufgabe im Alltag</span></li>
-             <li class="fade-up"><span class="feature-check">✓</span><span><strong>Enge Bindung</strong> — Willt zu jedem Zeitpunkt bei seinem Menschen sein</span></li>
-             <li class="fade-up"><span class="feature-check">✓</span><span><strong>Sportlich begabt</strong> — Weltmeister in Agility und Discdog</span></li>
-             <li class="fade-up"><span class="feature-check">✓</span><span><strong>Kreativ</strong> — Löst Probleme unabhängig und erfindet eigene Strategien</span></li>
-         </ul>
-     </div>
-
-     <!-- Pflege & Fütterung -->
-     <div class="section-alt">
-         <div class="section">
-             <div class="section-header fade-up">
-                 <div class="divider-dot"></div>
-                 <h2>Pflege & Fütterung</h2>
-                 <p>Der Border Collie bedarf keiner übermäßigen Pflege — dafür lebt er sein ganzes Leben lang intensiv.</p>
-             </div>
-
-             <div class="card-grid">
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M4.93 19.07l2.83-2.83M12 18v4M19.07 19.07l-2.83-2.83M22 12h-4M4.93 4.93C3.22 6.64 2 9.2 2 12s1.22 5.36 2.93 7.07M19.07 4.93C20.78 6.64 22 9.2 22 12s-1.22 5.36-2.93 7.07"/></svg>
-                     </div>
-                     <h3>Fellpflege</h3>
-                     <p>Das dichte Fell benötigt mindestens einmal wöchentliches Bürsten. Während des Fellwechsels im Frühjahr und Herbst sollte täglich gebürstet werden, um Haarballen und Mattes zu vermeiden. Kurzhhaarige Varianten sind deutlich pflegeleichter.</p>
-                 </div>
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16"/><path d="M6 16H5a4 4 0 0 1 0-8h1"/></svg>
-                     </div>
-                     <h3>Ernährung</h3>
-                     <p>Als aktiver Hund mit hohem Energieverbrauch benötigen Border Collies qualitativ hochwertiges Futter mit ausreichend Protein (mindestens 25 %). Die tägliche Ration hängt vom Aktivitätsレベル ab — sportliche Hunde brauchen oft 30-50 % mehr als eher ruhig gehaltene Artgenossen.</p>
-                 </div>
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"/><path d="M18 14l-4-4-4 4"/><path d="M14 10v6"/></svg>
-                     </div>
-                     <h3>Gesundheitschecks</h3>
-                     <p>Regelmäßige Tierarzt-Checks sind wichtig. Achten Sie besonders auf Hüft- und Ellbogendysplasie, Augenerkrankungen (Progressive Retina-Atrophie, Collie-Eye-Anomalie) und Epileptische Anfallssyndrom. Züchter sollten genetisch getestet sein.</p>
-                 </div>
-             </div>
-
-             <div class="info-block fade-up" style="margin-top:2rem">
-                 <h3>Alltags-Pflege</h3>
-                 <p>Nagelkürzung alle 4–6 Wochen, Zahnpflege 2-3× pro Woche und Ohrkontrollen sind Standard. Baden Sie Ihren Border Collie nur bei Bedarf — zu häufiges Waschen entfernt die natürlichen Fette des Fells. Viele Border Collies schwimmen gerne — das ist gleichzeitig eine tolle Beschäftigung.</p>
-             </div>
-         </div>
-     </div>
-
-     <!-- Training -->
-     <div class="section">
-         <div class="section-header fade-up">
-             <div class="divider-dot"></div>
-             <h2>Training & Tätigkeiten</h2>
-             <p>Ohne geistige und körperliche Herausforderung entfalten Border Collies nie ihr volles Potenzial.</p>
-         </div>
-
-         <div class="two-col">
-             <div class="info-block fade-up">
-                 <h3>Agility & Sport</h3>
-                 <p>Agility ist das Parade-Fach des Border Collies. Stangen, Tunnel, Slalom und Sprünge werden von diesen Hunden oft als Spiel empfunden. Viele Border Collies gewinnen internationale Wettkämpfe — aber schon das tägliche Training im Garten ist eine perfekte Auslastung.</p>
-                 <p>Aber auch Flyball, Discdog, Mantrailing oder Nasenarbeit sind hervorragende Beschäftigungen, die den Hund mental und körperlich fordern.</p>
-             </div>
-             <div class="info-block fade-up">
-                 <h3>Hütesport</h3>
-                 <p>Der Herdentrieb kann kanalisiert werden durch Hütesport. Selbst in der Stadt lassen sich spezielle Hüteworkshops oder Herden-Simulationen finden. Das ist die ursprüngliche Aufgabe — und kein anderes Spiel ersetzt sie ganz.</p>
-                 <p>Manchmal reicht es bereits, dem Hund eine „Hirtenweste" mit einem kleinen Ziegen- oder Schafschaufell aus Schaumstoff zu geben, um das Verhalten zu kanalisieren.</p>
-             </div>
-         </div>
-
-         <div class="card-grid" style="margin-top:2rem">
-             <div class="card fade-up">
-                 <h3>🧠 Gedichtspiele</h3>
-                 <p>Puzzle-Spielzeuge, Nasen-Arbeit, Suchspiele und interaktive Rätsel halten den Verstand fit. Ein Border Collie sollte täglich Zeit mit „Denken" verbringen.</p>
-             </div>
-             <div class="card fade-up">
-                 <h3>🏃 Körperliche Aktivität</h3>
-                 <p>Minimum 2 Stunden Bewegung täglich: Joggen, Radfahren, Schwimmen, Spielen im Park. Mehr ist nie zu viel.</p>
-             </div>
-             <div class="card fade-up">
-                 <h3>🎯 Tricks & Kommandos</h3>
-                 <p>Border Collies lernen neue Tricks in Rekordzeit. Machen Sie das Training zum tägliche Ritual — der Hund freut sich darauf mehr als auf alles andere.</p>
-             </div>
-         </div>
-     </div>
-
-     <!-- Gesundheit -->
-     <div class="section-alt">
-         <div class="section">
-             <div class="section-header fade-up">
-                 <div class="divider-dot"></div>
-                 <h2>Gesundheit</h2>
-                 <p>Border Collies sind generell robuste Hunde — es gibt aber einige rasstypische Gesundheitsrisiken.</p>
-             </div>
-
-             <div class="card-grid">
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                     </div>
-                     <h3>Augenerkrankungen</h3>
-                     <p><strong>Collie-Eye-Anomalie (CEA):</strong> Genetisch bedingt, bei 30-40 % der Rasse. Meist mild, seltener schwer.
-                     <br><strong>Progressive Retina-Atrophie (PRA):</strong> Führt im fortgeschrittenen Alter zu Erblindung. Genetisches Screening empfohlen.</p>
-                 </div>
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                     </div>
-                     <h3>Gelenke</h3>
-                     <p><strong>Hüftdysplasie:</strong> Tritt bei ca. 10-15 % auf, oft erst ab 2. Lebensjahr symptomatisch. Regelmäßige Röntgen-Checks bei der Zucht.
-                     <br><strong>Ellbogendysplasie:</strong> Besonders bei langhaarigen Varianten relevant.</p>
-                 </div>
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                     </div>
-                     <h3>Neurologisch</h3>
-                     <p><strong>Epilepsie:</strong> Border Collies haben eine leicht erhöhte Anfälligkeit. Erste Anfälle meist zwischen 6 Monaten und 3 Jahren.
-                     <br><strong>Bark-Hurries:</strong> Ein seltendes, genetisches Anfallssyndrom bei merle-Hunden.</p>
-                 </div>
-                 <div class="card fade-up">
-                     <div class="card-icon">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                     </div>
-                     <h3>Lebenserwartung</h3>
-                     <p>Mit einer angemessenen Ernährung und Bewegung leben Border Collies durchschnittlich 12–15 Jahre, manche sogar bis 17+. Sportliche Hunde mit gutem Gewichtigt zeigen oft eine bessere Lebensqualität als übergewichtige Artgenossen.</p>
-                 </div>
-             </div>
-         </div>
-     </div>
-
-     <!-- Galerie -->
-     <div class="section">
-         <div class="section-header fade-up">
-             <div class="divider-dot"></div>
-             <h2>Galerie</h2>
-             <p>Border Collies in Aktion — beim Arbeiten, Spielen und als treuer Begleiter.</p>
-         </div>
-
-         <div class="gallery-grid">
-             <div class="gallery-item fade-up">
-                 <img src="assets/border-collie-working.png" alt="Border Collie beim Schäferhund-Arbeit">
-                 <div class="gallery-caption">Beim Schäferhund-Arbeit im grünen Feld</div>
-             </div>
-             <div class="gallery-item fade-up">
-                 <img src="assets/border-collie-family.png" alt="Border Collie als Familienhund">
-                 <div class="gallery-caption">Treuer Begleiter in der Familie</div>
-             </div>
-             <div class="gallery-item fade-up">
-                 <img src="assets/border-collie-portrait.png" alt="Border Collie Porträt">
-                 <div class="gallery-caption">Intelligenter Blick</div>
-             </div>
-         </div>
-     </div>
-
-     <!-- Breed Comparison Tool -->
-     <div class="section" id="breed-comparison">
-         <div class="section-header fade-up">
-             <div class="divider-dot"></div>
-             <h2>Border Collie Vergleich</h2>
-             <p>Vergleichen Sie den Border Collie mit anderen Hunderassen</p>
-         </div>
-
-         <div class="breed-compare">
-             <div class="breed-card">
-                 <h3>Border Collie</h3>
-                 <div class="breed-stat">
-                     <span>Intelligenz</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 95%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Energiebedarf</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 90%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Felltiefe</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 85%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Größe (cm)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 90%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Gewicht (kg)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 85%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Lebenserwartung</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 85%;"></div>
-                 </div>
-             </div>
-
-             <div class="breed-card">
-                 <h3>Australian Shepherd</h3>
-                 <div class="breed-stat">
-                     <span>Intelligenz</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 90%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Energiebedarf</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 85%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Felltiefe</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 75%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Größe (cm)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 85%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Gewicht (kg)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 80%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Lebenserwartung</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 83%;"></div>
-                 </div>
-             </div>
-
-             <div class="breed-card">
-                 <h3>Belgischer Schaferhund</h3>
-                 <div class="breed-stat">
-                     <span>Intelligenz</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 85%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Energiebedarf</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 80%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Felltiefe</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 90%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Größe (cm)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 82%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Gewicht (kg)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 75%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Lebenserwartung</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 80%;"></div>
-                 </div>
-             </div>
-
-             <div class="breed-card">
-                 <h3>Australischer Schaferhund</h3>
-                 <div class="breed-stat">
-                     <span>Intelligenz</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 80%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Energiebedarf</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 75%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Felltiefe</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 80%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Größe (cm)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 80%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Gewicht (kg)</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 72%;"></div>
-                 </div>
-                 <div class="breed-stat">
-                     <span>Lebenserwartung</span>
-                     <div class="stat-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light)); width: 78%;"></div>
-                 </div>
-             </div>
-         </div>
-     </div>
-
-     <!-- Quiz "Ist der BC richtig für dich?" -->
-     <div class="section-alt" id="quiz">
-         <div class="section">
-             <div class="section-header fade-up">
-                 <div class="divider-dot"></div>
-                 <h2>Ist der Border Collie richtig für dich?</h2>
-                 <p>Beantworten Sie einige Fragen, um herauszufinden, ob ein Border Collie der richtige Hund für Sie ist</p>
-             </div>
-
-             <div class="quiz-container">
-                 <form id="breedQuiz">
-                     <div class="quiz-question fade-up">
-                         <p>1. Wo leben Sie?</p>
-                         <label><input type="radio" name="question1" value="haus" required> In einem Haus mit Garten</label>
-                         <label><input type="radio" name="question1" value="wohnung"> In einer Wohnung</label>
-                     </div>
-
-                     <div class="quiz-question fade-up">
-                         <p>2. Haben Sie Erfahrung mit Hunden?</p>
-                         <label><input type="radio" name="question2" value="erfahrener" required> Ja, viele Jahre Erfahrung</label>
-                         <label><input type="radio" name="question2" value="neuling"> Ich bin neu dabei</label>
-                         <label><input type="radio" name="question2" value="erfahrene-pflege"> Ich habe Hunde gepflegt, aber nicht als Haustier</label>
-                     </div>
-
-                     <div class="quiz-question fade-up">
-                         <p>3. Wie viel Zeit können Sie Ihrem Hund pro Tag widmen?</p>
-                         <label><input type="radio" name="question3" value="viele-stunden" required> 3+ Stunden</label>
-                         <label><input type="radio" name="question3" value="mittel"> Ca. 1-2 Stunden</label>
-                         <label><input type="radio" name="question3" value="wenig"> Weniger als 1 Stunde</label>
-                     </div>
-
-                     <div class="quiz-question fade-up">
-                         <p>4. Haben Sie einen privaten Freiraum für Ihren Hund?</p>
-                         <label><input type="radio" name="question4" value="grosser-raum" required> Ja, mit großem freiem Garten</label>
-                         <label><input type="radio" name="question4" value="kleiner-raum"> Ja, aber nur kleiner Freiraum</label>
-                         <label><input type="radio" name="question4" value="kein-freiraum"> Nein, keine privaten Freiräume</label>
-                     </div>
-
-                     <div class="quiz-question fade-up">
-                         <p>5. Welcher Aktivitätslevel beschreibt Sie am besten?</p>
-                         <label><input type="radio" name="question5" value="aktiv" required> Sehr aktiv, Sport, laufende Aktivitäten</label>
-                         <label><input type="radio" name="question5" value="mittel"> Mittelaktiv, Spaziergänge, sporadisch sportlich</label>
-                         <label><input type="radio" name="question5" value="ruhig"> Ruhig, wenig Bewegung</label>
-                     </div>
-
-                     <div class="quiz-question fade-up">
-                         <p>6. Wünschen Sie sich Sport/Wettkampf mit Ihrem Hund?</p>
-                         <label><input type="radio" name="question6" value="ja" required> Ja, gerne</label>
-                         <label><input type="radio" name="question6" value="nein"> Nein, ich bevorzuge ruhigere Aktivitäten</label>
-                         <label><input type="radio" name="question6" value="unsicher"> Ich bin unsicher</label>
-                     </div>
-
-                     <div class="quiz-question fade-up">
-                         <p>7. Haben Sie Kinder oder andere Haustiere?</p>
-                         <label><input type="radio" name="question7" value="kinder" required> Ja, ich habe Kinder oder mehrere Haustiere</label>
-                         <label><input type="radio" name="question7" value="keine-kinder"> Ich habe keine Kinder oder Haustiere</label>
-                         <label><input type="radio" name="question7" value="erfahrene-kinder"> Ich habe Kinder, aber sehr viel Erfahrung</label>
-                     </div>
-
-                     <button type="submit" class="hero-cta" style="margin-top: 2rem;">Ergebnis anzeigen</button>
-                 </form>
-
-                 <div id="quizResult" class="quiz-result fade-up" style="display: none; margin-top: 3rem;">
-                     <h3>Ihr Ergebnis:</h3>
-                     <div id="resultText"></div>
-                     <button id="restartQuiz" class="theme-toggle" style="margin-top: 1.5rem;">Quiz erneut starten</button>
-                 </div>
-             </div>
-         </div>
-     </div>
-
-     <!-- Training Calculator -->
-     <div class="section" id="training-calculator">
-         <div class="section-header fade-up">
-             <div class="divider-dot"></div>
-             <h2>Trainings-Berechner</h2>
-             <p>Berechnen Sie die optimalen Trainingszeiten und Kalorienbedarf Ihres Border Collies</p>
-         </div>
-
-         <div class="training-calc">
-             <div class="calc-input-group">
-                 <label for="dogAge">Alter des Hundes:</label>
-                 <select id="dogAge" class="fade-up">
-                     <option value="welpen">Welpen (0-6 Monate)</option>
-                     <option value="junghund">Junghund (6-18 Monate)</option>
-                     <option value="erwachsen">Erwachsen (1-7 Jahre)</option>
-                     <option value="senior">Senior (7+ Jahre)</option>
-                 </select>
-
-                 <label for="dogWeight">Gewicht des Hundes (kg):</label>
-                 <input type="number" id="dogWeight" class="fade-up" min="1" max="50" value="15">
-
-                 <label for="activityLevel">Aktivitätslevel:</label>
-                 <select id="activityLevel" class="fade-up">
-                     <option value="niedrig">Niedrig</option>
-                     <option value="mittel">Mittel</option>
-                     <option value="hoch">Hoch</option>
-                 </select>
-
-                 <label for="desiredActivities">Gewünschte Aktivitäten (mehrere möglich):</label>
-                 <div class="activity-checkboxes">
-                     <label><input type="checkbox" value="agility"> Agility</label>
-                     <label><input type="checkbox" value="hutesport"> Hütesport</label>
-                     <label><input type="checkbox" value="joggen"> Joggen</label>
-                     <label><input type="checkbox" value="radfahren"> Radfahren</label>
-                     <label><input type="checkbox" value="schwimmen"> Schwimmen</label>
-                     <label><input type="checkbox" value="nasenarbeit"> Nasenarbeit</label>
-                 </div>
-
-                 <button id="calculateButton" class="hero-cta" style="margin-top: 1rem;">Berechnen</button>
-             </div>
-
-             <div id="calcResult" class="info-block fade-up" style="margin-top: 2rem; display: none;">
-                 <h3>Berechnungsergebnis</h3>
-                 <p><strong>Empfohlene Tagesdauer:</strong> <span id="trainingDuration">0</span> Stunden</p>
-                 <p><strong>Kalorienbedarf:</strong> <span id="calorieNeed">0</span> kcal</p>
-                 <p><strong>Empfehlungen:</strong></p>
-                 <ul id="recommendationsList">
-                     <!-- Empfehlungen werden hier eingefügt -->
-                 </ul>
-             </div>
-         </div>
-     </div>
-
-     <!-- CTA / Fazit -->
-     <div class="cta-section">
-         <div class="fade-up">
-             <h2>Der perfekte Partner für Aktive</h2>
-             <p>Der Border Collie ist kein Hund für jeden — aber für die richtige Person ist er der beste Begleiter der Welt. Er braucht Bewegung, mentale Herausforderung und eine tiefe Bindung. Wenn Sie das bieten können, wird er ein Leben lang mit Treue und Liebe antworten.</p>
-             <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-                 <a href="#ueber" style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.2);color:#fff;padding:0.75rem 1.5rem;border-radius:50px;text-decoration:none;font-weight:600;transition:var(--transition)" onmouseover="this.style.background='rgba(255,255,255,0.35)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">Mehr erfahren ↑</a>
-             </div>
-         </div>
-     </div>
-
-     <!-- Footer -->
-     <footer>
-         <p>Border Collie Informationsseite · Erstellt mit ❤️ · Alle Bilder mit Unterstützung von KI generiert</p>
-     </footer>
-
-     <script>
-     // Theme Toggle
-     const themeToggle = document.getElementById('themeToggle');
-     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-     function setTheme(dark) {
-         document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-         themeToggle.textContent = dark ? '☀️' : '🌙';
-         localStorage.setItem('theme', dark ? 'dark' : 'light');
-     }
-
-     // Init theme
-     const saved = localStorage.getItem('theme');
-     setTheme(saved ? saved === 'dark' : prefersDark);
-
-     themeToggle.addEventListener('click', () => {
-         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-         setTheme(!isDark);
-     });
-
-     // Mobile Menu
-     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-     const navLinks = document.getElementById('navLinks');
-     mobileMenuBtn.addEventListener('click', () => {
-         navLinks.classList.toggle('open');
-         mobileMenuBtn.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
-     });
-
-     // Close mobile menu on link click
-     navLinks.querySelectorAll('a').forEach(a => {
-         a.addEventListener('click', () => {
-             navLinks.classList.remove('open');
-             mobileMenuBtn.textContent = '☰';
-         });
-     });
-
-     // Scroll Progress Bar
-     const progressBar = document.getElementById('progressBar');
-     window.addEventListener('scroll', () => {
-         const winH = document.documentElement.scrollHeight - window.innerHeight;
-         const pct = (window.scrollY / winH) * 100;
-         progressBar.style.width = pct + '%';
-     });
-
-     // Intersection Observer for fade-up animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-   // === ANIMATED COUNTER ===
-   const statValues = document.querySelectorAll('.stat-value');
-   const counterObserver = new IntersectionObserver((entries) => {
-       entries.forEach(entry => {
-           if (entry.isIntersecting && !entry.target.dataset.animated) {
-               entry.target.dataset.animated = 'true';
-               const text = entry.target.textContent;
-               const match = text.match(/^(\d+)(.*)$/);
-               if (match) {
-                   const target = parseInt(match[1]);
-                   const suffix = match[2];
-                   let current = 0;
-                   const step = Math.max(1, Math.floor(target / 40));
-                   const timer = setInterval(() => {
-                       current += step;
-                       if (current >= target) {
-                           current = target;
-                           clearInterval(timer);
-                       }
-                       entry.target.textContent = current + suffix;
-                   }, 30);
-               }
-            }
-        });
-   }, { threshold: 0.5 });
-   statValues.forEach(el => counterObserver.observe(el));
-
-   // === PARALLAX HERO ===
-   const heroBg = document.querySelector('.hero-bg');
-   let ticking = false;
-   window.addEventListener('scroll', () => {
-       if (!ticking) {
-           window.requestAnimationFrame(() => {
-               const scrolled = window.scrollY;
-               if (scrolled < window.innerHeight && heroBg) {
-                   heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
-               }
-               ticking = false;
-           });
-           ticking = true;
-        }
-   });
-
-   // === PARTICLE CANVAS (subtle floating dots) ===
-   const canvas = document.createElement('canvas');
-   canvas.id = 'particles-canvas';
-   const heroSection = document.querySelector('.hero');
-   if (heroSection) {
-       heroSection.insertBefore(canvas, heroSection.firstChild);
-       const ctx = canvas.getContext('2d');
-       let particles = [];
-
-       function resizeCanvas() {
-           canvas.width = heroSection.offsetWidth;
-           canvas.height = heroSection.offsetHeight;
-       }
-       resizeCanvas();
-       window.addEventListener('resize', resizeCanvas);
-
-       for (let i = 0; i < 30; i++) {
-           particles.push({
-               x: Math.random() * canvas.width,
-               y: Math.random() * canvas.height,
-               r: Math.random() * 3 + 1,
-               dx: (Math.random() - 0.5) * 0.5,
-               dy: (Math.random() - 0.5) * 0.5,
-               alpha: Math.random() * 0.4 + 0.1
-           });
-       }
-
-       function animateParticles() {
-           ctx.clearRect(0, 0, canvas.width, canvas.height);
-           particles.forEach(p => {
-               p.x += p.dx;
-               p.y += p.dy;
-               if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-               if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-               ctx.beginPath();
-               ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-               ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
-               ctx.fill();
-           });
-           requestAnimationFrame(animateParticles);
-       }
-       animateParticles();
-   }
-
-   // === TEXT REVEAL ON SCROLL ===
-   const revealElements = document.querySelectorAll('.card p, .info-block p, section p');
-   const revealObserver = new IntersectionObserver((entries) => {
-       entries.forEach(entry => {
-           if (entry.isIntersecting) {
-               entry.target.classList.add('reveal-text');
-               setTimeout(() => entry.target.classList.add('visible'), 50);
-            }
-        });
-   }, { threshold: 0.15 });
-
-   // Initialize elements as reveal-text
-   revealElements.forEach(el => {
-       el.classList.add('reveal-text');
-       revealObserver.observe(el);
-   });
-
-   // === LIGHTBOX FUNCTIONALITY ===
-   const lightboxOverlay = document.createElement('div');
-   lightboxOverlay.className = 'lightbox-overlay';
-   lightboxOverlay.innerHTML = `
-       <span class="lightbox-close">&times;</span>
-       <img class="lightbox-img" src="" alt="">
-       <button class="lightbox-nav lightbox-prev">&#10094;</button>
-       <button class="lightbox-nav lightbox-next">&#10105;</button>
-   `;
-   document.body.appendChild(lightboxOverlay);
-
-   const galleryItems = document.querySelectorAll('.gallery-item');
-   const lightboxImg = document.querySelector('.lightbox-img');
-   const lightbox = document.querySelector('.lightbox-overlay');
-   let currentIndex = 0;
-
-   function openLightbox(index) {
-       currentIndex = index;
-       lightboxImg.src = galleryItems[index].querySelector('img').src;
-       lightboxImg.alt = galleryItems[index].querySelector('img').alt;
-       lightbox.classList.add('active');
-       document.body.style.overflow = 'hidden';
-   }
-
-   function closeLightbox() {
-       lightbox.classList.remove('active');
-       document.body.style.overflow = 'auto';
-   }
-
-   function showNext() {
-       currentIndex = (currentIndex + 1) % galleryItems.length;
-       openLightbox(currentIndex);
-   }
-
-   function showPrev() {
-       currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
-       openLightbox(currentIndex);
-   }
-
-   // Open lightbox on gallery item click
-   galleryItems.forEach((item, index) => {
-       item.addEventListener('click', () => {
-           openLightbox(index);
-       });
-   });
-
-   // Close lightbox on close button click or outside the image
-   document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-   lightbox.addEventListener('click', (e) => {
-       if (e.target === lightbox) closeLightbox();
-   });
-
-   // Navigation with arrow keys
-   document.addEventListener('keydown', (e) => {
-       if (!lightbox.classList.contains('active')) return;
-       if (e.key === 'Escape') closeLightbox();
-       if (e.key === 'ArrowRight') showNext();
-       if (e.key === 'ArrowLeft') showPrev();
-   });
-
-   // Swipe support for mobile
-   let touchStartX = 0;
-   let touchEndX = 0;
-
-   lightbox.addEventListener('touchstart', (e) => {
-       touchStartX = e.changedTouches[0].screenX;
-   });
-
-   lightbox.addEventListener('touchend', (e) => {
-       touchEndX = e.changedTouches[0].screenX;
-       const swipeThreshold = 50;
-       
-       if (touchStartX - touchEndX > swipeThreshold) {
-           showNext();
-       } else if (touchEndX - touchStartX > swipeThreshold) {
-           showPrev();
-       }
-   });
-     </script>
+<nav class="navbar">
+<div class="container">
+<a href="#" class="logo">BRK</a>
+<ul class="nav-links" id="navLinks">
+<li><a href="#warum">Warum das BRK?</a></li>
+<li><a href="#einsaetze">Einsaetze</a></li>
+<li><a href="#spenden">Spenden</a></li>
+<li><a href="#ehrenamt">Ehrenamt</a></li>
+<li><a href="#galerie">Galerie</a></li>
+</ul>
+<button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+</div>
+</nav>
+
+<section class="hero" id="home">
+<div class="hero-content">
+<div class="cross-icon">✚</div>
+<h1>Bayerisches Rotes Kreuz</h1>
+<p class="subtitle">Humanitare Hilfe in Bayern und weltweit – Mit Ihrer Unterstotzung retten wir Leben.</p>
+<a href="#spenden" class="cta-btn">Jetzt Spenden →</a>
+</div>
+</section>
+
+<section class="section" id="warum">
+<div class="container">
+<h2>Warum das Bayerische Rote Kreuz?</h2>
+<p style="margin-bottom:1.5rem">Das BRK ist einer der groBten Humanitaren Hilfsverbande Deutschlands. Seit uber 130 Jahren steht das BRK fur Menschen in Not – in Bayern und weltweit.</p>
+<div class="stats">
+<div class="stat"><div class="stat-num">90.000+</div><div class="stat-label">Ehrenamtliche in Bayern</div></div>
+<div class="stat"><div class="stat-num">300+</div><div class="stat-label">Kreis- &amp; Ortsvereine</div></div>
+<div class="stat"><div class="stat-num">130+</div><div class="stat-label">Jahre Erfahrung</div></div>
+<div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Einsatzbereit</div></div>
+</div>
+<div class="card-grid">
+<div class="card"><div class="card-icon">🏥</div>
+<h3>Erste Hilfe &amp; Rettung</h3>
+<p>BRK-Mitglieder leisten taglich Rettungsdienst, Sanitatsdienst bei GroBveranstaltungen und Katastrophenhilfe – rund um die Uhr.</p>
+</div>
+<div class="card"><div class="card-icon">🌍</div>
+<h3>Internationaler Einsatz</h3>
+<p>Bei Naturkatastrophen, Pandemien und humanitaren Krisen weltweit: Das BRK ist vor Ort und bringt Hilfe dorthin, wo sie am dringendsten benotigt wird.</p>
+</div>
+<div class="card"><div class="card-icon">🎓</div>
+<h3>Ausbildung</h3>
+<p>Von der einfachen Erste-Hilfe-Kurs bis zum Katastropheneinsatz – das BRK bietet eine professionelle, anerkannte Ausbildung in allen Rettungsbereichen.</p>
+</div>
+<div class="card"><div class="card-icon">🐕</div>
+<h3>Sanitaetshunde</h3>
+<p>Speziell ausgebildete Sanitaetshunde helfen bei der Suche nach Vermissten unter Trummern – eine einzigartige Einheit von Mensch und Tier.</p>
+</div>
+<div class="card"><div class="card-icon">🧒</div>
+<h3>Jugendarbeit</h3>
+<p>Das Bayerische Jugendrotkreuz (BJRK) fordert Jugendliche ab 6 Jahren in erster Hilfe, Sozialem Engagement und Teamarbeit.</p>
+</div>
+<div class="card"><div class="card-icon">🆘</div>
+<h3>Katastrophenschutz</h3>
+<p>Das BRK ist in Bayern der groBte Zivilschutz-Verein. Bei Hochwasser, Stromausfall oder Pandemen ist das BRK die erste Instanz.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="einsaetze">
+<div class="container">
+<h2>Aktuelle Einsatze &amp; Projekte</h2>
+<p style="margin-bottom:1.5rem">Das BRK ist taglich im Einsatz – in Bayern und weltweit. Ihr Geld kommt direkt vor Ort an.</p>
+<div class="timeline">
+<div class="t-item"><h4>Blitzueberschwemmungen in Bayerisch-Schwaben (2021)</h4><p>Uber 2.000 BRK-Kraft eingesetzt zur Rettung und Versorgung der betroffenen Bevolkerung.</p></div>
+<div class="t-item"><h4>Pandemie-Hilfe</h4><p>BRK-Mitglieder haben an Testcentern, Impfungen und dem Rettungsdienst mitgewirkt – taglich hunderte Einsatze.</p></div>
+<div class="t-item"><h4>International: Erdbeben-Hilfe</h4><p>BRK-Teams in Tuerkei, Marokko und weiteren Lاندern vor Ort bei der akuten Nothilfe und dem Wiederaufbau.</p></div>
+<div class="t-item"><h4>Sanitaetsdienst bei GroBveranstaltungen</h4><p>Oktoberfest, Marathon, Konzerte – das BRK ist an hunderten Veranstaltungen jahrlich mit Sanitaetspersonal vor Ort.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="spenden" style="background:var(--surf)">
+<div class="container">
+<h2>So konnen Sie Spenden</h2>
+<p style="margin-bottom:1.5rem">Jeder Euro kommt direkt der humanitaren Hilfe zugute. Das BRK ist von der Finanzverwaltung als gemeinnutzig anerkannt – Ihre Spende ist absetzbar.</p>
+<div class="donate-grid">
+<div class="donate-card featured"><h3>Einmal-Spende</h3><p>Spontane Unterstotzung – wahlbar in beliebiger Hoehe.</p><div class="formula">Kto: 11 22 33 44 55<br>Bank: Kreissparkasse Muenchen<br>BLZ: 700 501 00<br>Vsz: „Spende BRK"</div></div>
+<div class="donate-card"><h3>Dauerspende</h3><p>Regelmaessige Unterstotzung – monatlich, vierteljaehrlich oder jahrlich.</p><p style="margin-top:.5rem;color:var(--m)">Sie konnen jederzeit rueckfragen oder aendern.</p><a href="https://www.brk.de/spenden.php" class="cta-secondary" target="_blank" rel="noopener">Mehr auf brk.de →</a></div>
+<div class="donate-card"><h3>Vermachtnis</h3><p>Ihr Vermachtnis sichert die Zukunft humanitaren Hilfe.</p><p style="margin-top:.5rem;color:var(--m)">Kostenfreie Beratung durch das BRK-Justizamt.</p></div>
+</div>
+<div style="margin-top:2rem;padding:20px;background:var(--surf);border-radius:12px;border:1px solid var(--bord)">
+<p><strong>Spenden-Benachrichtigung:</strong> Das Bayerische Rote Kreuz ist gemeinnutzig und berechtigt zu offiziellen Sammeln. Spenden sind bis zur hoechsten vom Finanzamt anerkannten Hoehe absetzbar.<br><br><strong>Aktenzeichen:</strong> 88/401/03491 (Finanzamt Muenchen)</p>
+</div>
+</div>
+</section>
+
+<section class="section" id="ehrenamt">
+<div class="container">
+<h2>Ehrenamt beim BRK</h2>
+<p style="margin-bottom:1.5rem">Bei uber 90.000 Ehrenamtlichen in Bayern – ob als Rettungssaniter, Jugendleiter, Sanitaetshundefuhrer oder im Katastrophenschutz: Bei dem BRK findet jeder seine Aufgabe.</p>
+<div class="vol-grid">
+<div class="vol-card"><div class="vol-icon">🚑</div><h3>Rettungssaniter</h3><p>Lerne Rettungssanitiertausbildung und fahre taglich Einsatze mit Rettungswagen und Notarztwagen.<br><br><strong>Idee:</strong> Ab 18 Jahren, mittlerer Schulabschluss.</p></div>
+<div class="vol-card"><div class="vol-icon">🧒</div><h3>BJRK – Jugendarbeit</h3><p>Das Bayerische Jugendrotkreuz bietet Programme ab 6 Jahren: Ersthilfe, Soziales, Sport und Ausfluge.<br><br><strong>Idee:</strong> Ab 6 Jahren – frag deinen Kreisverein.</p></div>
+<div class="vol-card"><div class="vol-icon">🐕</div><h3>Sanitaetshund-Einheit</h3><p>Als Fuhren arbeitet du mit deiner speziell ausgebildeten Hund auf der Suche nach Vermissten.<br><br><strong>Idee:</strong> BRK-Mitglied + abgeschlossene Grundausbildung.</p></div>
+<div class="vol-card"><div class="vol-icon">🆘</div><h3>Katastrophenschutz</h3><p>Bildung für GroBschadenslagen – von der Organisation am Lagewagen bis zum technischem Einsatz vor Ort.<br><br><strong>Idee:</strong> Regelaemisches Einsatztraining im Kreisverein.</p></div>
+<div class="vol-card"><div class="vol-icon">🎓</div><h3>Ausbilder/in</h3><p>Gebe dein Wissen weiter – unterrichte Ersthilfe-Kurse, fahre Lehrgaenge oder bilette Rettungssaniter aus.<br><br><strong>Idee:</strong> Berufserfahrung + pädagogisches Interest.</p></div>
+<div class="vol-card"><div class="vol-icon">🌍</div><h3>Internationaler Einsatz</h3><p>Geh in den Auslandseinsatz – humanitare Hilfe bei Naturkatastrophen, Pandemien oder im Entwicklungshilfe.<br><br><strong>Idee:</strong> Min. 1 Jahr BRK-Erfahrung + Sprachkenntnisse.</p></div>
+</div>
+<div class="card" style="margin-top:1.5rem;text-align:center">
+<h3>So starten Sie</h3><p>Besuchen Sie Ihre lokale BRK-Website oder schreiben Sie an: <a href="mailto:nachricht@brk.de" class="link">mail@brk.de</a><br>Oder nutzen Sie das <a href="https://www.brk.de" class="link">BRK-Kontaktformular</a> auf der Offiziellen BRK-Website.</p>
+</div>
+</div>
+</section>
+
+<section class="section" id="galerie" style="background:var(--surf)">
+<div class="container">
+<h2>Galerie</h2><p style="margin-bottom:1rem">Einsaetze, Ausbildung und Humanitäre Hilfe des BRK in Bayern und weltweit.</p>
+<div class="gallery">
+<img src="assets/brk-hilfe.png" alt="BRK Mitarbeiter bei humanitärer Hilfe">
+<img src="assets/brk-retten.png" alt="BRK Rettung im Einsatz" loading="lazy">
+<img src="assets/brk-formation.png" alt="BRK Ausbildung" loading="lazy">
+<img src="assets/brk-hund.png" alt="BRK Sanitätshund-Einheit" loading="lazy">
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<div><h4>Bayerisches Rotes Kreuz e.V.</h4><ul><li>Am Harting 49, 81479 Munchen</li><li>Tel: 089 / 70004-0</li><li><a href="mailto:nachricht@brk.de">Mail@BRK.DE</a></li></ul></div>
+<div><h4>Weitere Links</h4><ul><li><a href="https://www.brk.de">www.brk.de</a></li><li><a href="https://www.drk.de">www.drk.de</a></li><li><a href="https://www.brk.de/einkaufen.php">Spendenformulare</a></li></ul></div>
+<div><h4>Impressum</h4><ul><li><a href="#">Impressum</a></li><li><a href="#">Datenschutz</a></li><li>Stellen- &amp; Privatspharehinweise</li></ul></div>
+<div class="copyright">© 2026 Bayerisches Rotes Kreuz e.V. | Alle Rechte vorbehalten. Diese Seite dient Informationszwecken und ist kein offiziellen BRK-Auftritt.</div>
+</div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth"})}));
+const m=document.getElementById("menuBtn");const n=document.getElementById("navLinks");m.addEventListener("click",()=>n.classList.toggle("open"));n.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>n.classList.remove("open")));
+const t=JSON.parse(localStorage.getItem("theme")||"light");document.documentElement.setAttribute("data-theme",t);const tb=document.createElement("button");tb.className="theme-btn";tb.textContent=t==="dark"?"☀️":"🌙";tb.addEventListener("click",()=>{const th=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",th);localStorage.setItem("theme",JSON.stringify(th));tb.textContent=th==="dark"?"☀️":"🌙"});document.querySelector(".navbar .container").appendChild(tb);
+</script>
 </body>
 </html>
